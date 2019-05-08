@@ -1,7 +1,8 @@
 // eslint-disable
 // this is an auto generated file. This will be overwritten
 
-export const getProperty = `query GetProperty($id: ID!) {
+
+export const getProperty = ` query GetProperty($id: ID!) {
   getProperty(id: $id) {
     id
     title
@@ -17,7 +18,7 @@ export const getProperty = `query GetProperty($id: ID!) {
   }
 }
 `;
-export const listPropertys = `query ListPropertys(
+export const listPropertys = ` query ListPropertys(
   $filter: ModelPropertyFilterInput
   $limit: Int
   $nextToken: String

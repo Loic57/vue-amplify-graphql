@@ -6,24 +6,33 @@ import router from './routes'
 import Amplify, * as AmplifyModules from 'aws-amplify'
 import { AmplifyPlugin } from 'aws-amplify-vue'
 import awsmobile from './aws-exports'
-import { ApolloClient } from 'apollo-client'
-import { HttpLink } from 'apollo-link-http'
-import { InMemoryCache } from 'apollo-cache-inmemory'
+import AWSAppSyncClient from 'aws-appsync'
 
 
-// HTTP connexion to the API
-const httpLink = new HttpLink({
-  uri: 'https://h473i3xljnbqzd3hrdcv6qthgm.appsync-api.eu-west-1.amazonaws.com/graphql',
+//graphql server
+const config = {
+  url: "https://h473i3xljnbqzd3hrdcv6qthgm.appsync-api.eu-west-1.amazonaws.com/graphql",
+  region: "eu-west-1",
+  auth: {
+    type: "API_KEY",
+    apiKey: "da2-fehazzlgifc5hdwryy6hswsi2y",
+  }
+}
+const options = {
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'cache-and-network',
+    }
+  }
+}
+
+const client = new AWSAppSyncClient(config, options)
+
+const appsyncProvider = new VueApollo({
+  defaultClient: client
 })
 
-// Cache implementation
-const cache = new InMemoryCache()
 
-// Create the apollo client
-const apolloClient = new ApolloClient({
-  link: httpLink,
-  cache,
-})
 
 
 Amplify.configure(awsmobile)
@@ -33,13 +42,11 @@ Vue.use(VueApollo)
 Vue.config.productionTip = false
 
 
-const apolloProvider = new VueApollo({
-  defaultClient: apolloClient,
-})
+
 
 
 new Vue({
   router,
-  apolloProvider,
+  provide: appsyncProvider,
   render: h => h(App),
 }).$mount('#app')
