@@ -16,7 +16,7 @@
   import Property from "../components/Property"
   import Amplify, { API, graphqlOperation } from "aws-amplify";
   import gql from 'graphql-tag'
-  import * as queries from '../graphql/queries';
+  import * as queries from '../graphql/queries'; 
 
   
   const listPropertys = gql` 
@@ -46,7 +46,7 @@
   `
 
 
-  console.log(listPropertys)
+  
   
 
   export default {
